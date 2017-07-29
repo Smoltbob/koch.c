@@ -11,8 +11,8 @@
  * 1) Size of the first segment. We deduce the size of the image from it.
  * 2) Number of segments for the polygon (3 = triangle, etc)
  * 3) Numver of iterations = "levels" of fractal
- * 4) Foreground color
- * 5) Background color
+ * 4) Foreground color in 0x**RRGGBB hex format
+ * 5) Background color in 0x**RRGGBB hex format
  * 6) Output svg file name
  * 7) Wether or not we generate one image per iteration (usefull for gifs)
  *    default : false.
@@ -48,29 +48,29 @@ void init_parameters(struct parameters *parameters, int argc, char *argv[])
         char *tmp = malloc(40 * sizeof(char));
         /* Initialisation de la variable utilisée pour l'option all */
         char choix = 0;
-        printf("Les paramètres n'ont pas tous été spécifiés.\n");
-        printf("Longueur du segment ?\n");
+        printf("All the parameters haven't been specified\n");
+        printf("Length of segment ?\n");
         scanf("%"PRIu32, &parameters->segment_length);
-        printf("Nombre de côtés ?\n");
+        printf("Number of segments\n");
         scanf("%"PRIu32, &parameters->nb_sides);
         parameters->image_size = (
                 parameters->segment_length/sin(PI/parameters->nb_sides)
                 + sqrt(pow(parameters->segment_length,2) * 3/4));
-        printf("Nombre d'itérations ?\n");
+        printf("Number of iterations ?\n");
         scanf("%"PRIu32, &parameters->nb_iterations);
-        printf("Couleur de ligne ?\n");
+        printf("Line color ?\n");
         scanf("%s", tmp);
         parameters->fg_color = strtol(tmp, NULL, 16);
-        printf("Couleur arrière plan ?\n");
+        printf("Background color ?\n");
         scanf("%s", tmp);
         parameters->bg_color = strtol(tmp, NULL, 16);
-        printf("Nom du fichier de sortie ?\n");
+        printf("File name ?\n");
         scanf("%s", tmp);
         parameters->outfile = tmp;
-        printf("Enregistrer toutes les étapes [o/N]?\n");
+        printf("Save all the steps [y/N] ?\n");
         scanf(" %c", &choix);
-        /* 111 = code ascii du 'o' */
-        parameters->all_images = choix == 111 ? true : false;
+        /* 121 = 'y' ascii code */
+        parameters->all_images = choix == 121 ? true : false;
     }
 }
 
@@ -93,13 +93,13 @@ void show_koch_list(struct list *koch)
 /* Shows the saved parameters */
 void show_parameters(const struct parameters *parameters)
 {
-    printf("Longueur segment: %d\n", parameters->segment_length);
-    printf("Nombre de cotes: %d\n", parameters->nb_sides);
-    printf("Taille d'image: %d\n", parameters->image_size);
-    printf("Nombre d'itérations: %d\n", parameters->nb_iterations);
-    printf("Couleur de ligne: %d\n", parameters->fg_color);
-    printf("Couleur de fond: %d\n", parameters->bg_color);
-    printf("Fichier de sortie: %s\n", parameters->outfile);
+    printf("Size of segment : %d\n", parameters->segment_length);
+    printf("Number of segmentsi : %d\n", parameters->nb_sides);
+    printf("Image size : %d\n", parameters->image_size);
+    printf("Number of iterations : %d\n", parameters->nb_iterations);
+    printf("Line color : %d\n", parameters->fg_color);
+    printf("Background color : %d\n", parameters->bg_color);
+    printf("File name : %s\n", parameters->outfile);
 }
 
 /* Frees a struct parameters variable */
